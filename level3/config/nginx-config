@@ -1,0 +1,20 @@
+server {
+    listen *:80;
+    server_name shpp.level3;
+    root /Backend/level3/public;
+    #index index.html index.htm index.php;
+
+    location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+        try_files $uri $uri/ =404;
+    }
+
+    location / {
+        index index.php;
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+	location ~ \.php$ {
+		include snippets/fastcgi-php.conf;
+		fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+	}
+}
